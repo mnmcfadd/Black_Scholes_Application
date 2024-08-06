@@ -1,6 +1,6 @@
-%pip install -q streamlit
+!pip install -q streamlit
 !npm install localtunnel
-%pip install streamlit-echarts
+!pip install streamlit-echarts
     
 import streamlit as st
 from scipy.stats import norm
