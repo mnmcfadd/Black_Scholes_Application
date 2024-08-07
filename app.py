@@ -37,13 +37,13 @@ if current_view == "calculator":
 
     col1, col2 = st.columns(2)
     with col1:
-        st.session_state['S'] = st.number_input('Current Asset Price ($ USD): ', value=None, placeholder="Ex: 52.50", key="S")
-        st.session_state['T'] = st.number_input('Time to Expiry (Fractional Years): ', value=None, placeholder="Ex: .75", key="T") #in days, will be converted to fraction of year
+        S = st.number_input('Current Asset Price ($ USD): ', value=None, placeholder="Ex: 52.50", key="S")
+        T = st.number_input('Time to Expiry (Fractional Years): ', value=None, placeholder="Ex: .75", key="T") #in days, will be converted to fraction of year
         calc = st.button('Calculate Option Prices')
     with col2:
-        st.session_state['K'] = st.number_input('Strike Price ($ USD): ', value=None, placeholder="Ex: 55.00", key="K")
-        st.session_state['sigma'] = st.number_input('Annualized Implied Volatility (%): ', value=None, placeholder="Ex: 27", step=.1, key="sigma") #in percent, will be converted to decimal form
-        st.session_state['r'] = st.number_input('Risk Free Interest Rate (%): ', value=None, placeholder="Ex: 4.5", key="r") #in percent, will be converted to decimal form
+        K = st.number_input('Strike Price ($ USD): ', value=None, placeholder="Ex: 55.00", key="K")
+        sigma = st.number_input('Annualized Implied Volatility (%): ', value=None, placeholder="Ex: 27", step=.1, key="sigma") #in percent, will be converted to decimal form
+        r = st.number_input('Risk Free Interest Rate (%): ', value=None, placeholder="Ex: 4.5", key="r") #in percent, will be converted to decimal form
 
     if calc:
         sigma = sigma/100
