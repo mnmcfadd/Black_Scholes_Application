@@ -7,11 +7,15 @@ from streamlit_echarts import st_echarts
 N = norm.cdf
 
 def BS_CALL(S, K, T, r, sigma):
+    r = r/100
+    sigma = sigma/100
     d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
     return S * N(d1) - K * np.exp(-r*T)* N(d2)
 
 def BS_PUT(S, K, T, r, sigma):
+    r = r/100
+    sigma = sigma/100
     d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
     d2 = d1 - sigma* np.sqrt(T)
     return K*np.exp(-r*T)*N(-d2) - S*N(-d1)
@@ -37,20 +41,23 @@ if current_view == "calculator":
 
     col1, col2 = st.columns(2)
     with col1:
-        S = st.number_input('Current Asset Price ($ USD): ', value=None, placeholder="Ex: 52.50", key="S")
-        T = st.number_input('Time to Expiry (Fractional Years): ', value=None, placeholder="Ex: .75", key="T") #in days, will be converted to fraction of year
+        Stemp = st.number_input('Current Asset Price ($ USD): ', value=st.session_state.get("S", None), placeholder="Ex: 52.50", key="Stemp")
+        Ttemp = st.number_input('Time to Expiry (Fractional Years): ', value=st.session_state.get("T", None), placeholder="Ex: .75", key="Ttemp") #in days, will be converted to fraction of year
         calc = st.button('Calculate Option Prices')
     with col2:
-        K = st.number_input('Strike Price ($ USD): ', value=None, placeholder="Ex: 55.00", key="K")
-        sigma = st.number_input('Annualized Implied Volatility (%): ', value=None, placeholder="Ex: 27", step=.1, key="sigma") #in percent, will be converted to decimal form
-        r = st.number_input('Risk Free Interest Rate (%): ', value=None, placeholder="Ex: 4.5", key="r") #in percent, will be converted to decimal form
+        Ktemp = st.number_input('Strike Price ($ USD): ', value=st.session_state.get("K", None), placeholder="Ex: 55.00", key="Ktemp")
+        sigmatemp = st.number_input('Annualized Implied Volatility (%): ', value=st.session_state.get("sigma", None), placeholder="Ex: 27", step=.1, key="sigmatemp") #in percent, will be converted to decimal form
+        rtemp = st.number_input('Risk Free Interest Rate (%): ', value=st.session_state.get("r", None), placeholder="Ex: 4.5", key="rtemp") #in percent, will be converted to decimal form
 
     if calc:
-        sigma = sigma/100
-        r = r/100
-        call_price = BS_CALL(S, K, T, r, sigma)
-        put_price = BS_PUT(S, K, T, r, sigma)
-        st.write(f'For S={S}, K={K}, T={T}, sigma={sigma}, r={r}:')
+        st.session_state.S = Stemp
+        st.session_state.T = Ttemp
+        st.session_state.K = Ktemp
+        st.session_state.sigma = sigmatemp
+        st.session_state.r = rtemp
+        call_price = BS_CALL(st.session_state.S, st.session_state.K, st.session_state.T, st.session_state.r, st.session_state.sigma)
+        put_price = BS_PUT(st.session_state.S, st.session_state.K, st.session_state.T, st.session_state.r, st.session_state.sigma)
+        st.write(f'For S={st.session_state.S}, K={st.session_state.K}, T={st.session_state.T}, sigma={st.session_state.sigma}, r={st.session_state.r}:')
         col3, col4 = st.columns(2)
         with col3:
             st.write(f'Call Option Price ($ USD): **:blue[{call_price:.2f}]**')
@@ -86,17 +93,17 @@ elif current_view == "visualize":
     kCallData = list(map(list, zip(kVals, kCalls)))
     kPutData = list(map(list, zip(kVals, kPuts)))
 
-    sigVals = np.arange(sigma-.15, sigma+.15, .01)
+    sigVals = np.arange(sigma-15, sigma+15, 1)
     sigCalls = [BS_CALL(S, K, T, r, sig) for sig in sigVals]
     sigPuts = [BS_PUT(S, K, T, r, sig) for sig in sigVals]
-    sigCallData = list(map(list, zip(sigVals*100, sigCalls)))
-    sigPutData = list(map(list, zip(sigVals*100, sigPuts)))
+    sigCallData = list(map(list, zip(sigVals, sigCalls)))
+    sigPutData = list(map(list, zip(sigVals, sigPuts)))
 
-    rVals = np.arange(0,r+.05,.005)
+    rVals = np.arange(0,r+5,.5)
     rCalls = [BS_CALL(S, K, T, rv, sigma) for rv in rVals]
     rPuts = [BS_PUT(S, K, T, rv, sigma) for rv in rVals]
-    rCallData = list(map(list, zip(rVals*100, rCalls)))
-    rPutData = list(map(list, zip(rVals*100, rPuts)))
+    rCallData = list(map(list, zip(rVals, rCalls)))
+    rPutData = list(map(list, zip(rVals, rPuts)))
 
     TVals = np.arange(T-.5,T+.5,.05)
     TCalls = [BS_CALL(S, K, t, r, sigma) for t in TVals]
@@ -211,11 +218,3 @@ elif current_view == "visualize":
        ],
     }
     st_echarts(options=option, height="600px")
-
-    # use input values from calculator page
-    # if no input values, display visualizations using placeholder values.
-    # display the input values up top. put message 'use calculator to visualize
-    # unique values' or something like that
-
-
-#add handling for non-numeric, or no-input on calculator page
