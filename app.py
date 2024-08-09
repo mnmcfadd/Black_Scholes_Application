@@ -1,3 +1,4 @@
+%%writefile app.py
 import streamlit as st
 from scipy.stats import norm
 import numpy as np
@@ -49,7 +50,7 @@ if current_view == "calculator":
         sigmatemp = st.number_input('Annualized Implied Volatility (%): ', value=st.session_state.get("sigma", None), placeholder="Ex: 27", step=.1, key="sigmatemp") #in percent, will be converted to decimal form
         rtemp = st.number_input('Risk Free Interest Rate (%): ', value=st.session_state.get("r", None), placeholder="Ex: 4.5", key="rtemp") #in percent, will be converted to decimal form
 
-    if calc:
+    if calc and Stemp is not None and Ktemp is not None and Ttemp is not None and rtemp is not None and sigmatemp is not None:
         st.session_state.S = Stemp
         st.session_state.T = Ttemp
         st.session_state.K = Ktemp
@@ -63,6 +64,8 @@ if current_view == "calculator":
             st.write(f'Call Option Price ($ USD): **:blue[{call_price:.2f}]**')
         with col4:
             st.write(f'Put Option Price ($ USD): **:blue[{put_price:.2f}]**')
+    else:
+      st.write(f'Enter Values for All Parameters.')
 
 elif current_view == "visualize":
     if st.button(':blue[Calculator]'):
@@ -81,8 +84,8 @@ elif current_view == "visualize":
         S = 52.5
         K = 55.0
         T = .5
-        r = .045
-        sigma = .27
+        r = 4.5
+        sigma = 27.0
     else:
         st.write(f'Visualizing Values: S={S}, K={K}, T={T}, sigma={sigma}, r={r}.')
 
@@ -218,3 +221,4 @@ elif current_view == "visualize":
        ],
     }
     st_echarts(options=option, height="600px")
+
