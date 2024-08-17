@@ -95,19 +95,19 @@ elif current_view == "visualize":
     kCallData = list(map(list, zip(kVals, kCalls)))
     kPutData = list(map(list, zip(kVals, kPuts)))
 
-    sigVals = np.arange(sigma-15, sigma+15, 1)
+    sigVals = np.arange(sigma-15, sigma+15, .75)
     sigCalls = [BS_CALL(S, K, T, r, sig) for sig in sigVals]
     sigPuts = [BS_PUT(S, K, T, r, sig) for sig in sigVals]
     sigCallData = list(map(list, zip(sigVals, sigCalls)))
     sigPutData = list(map(list, zip(sigVals, sigPuts)))
 
-    rVals = np.arange(0,r+5,.5)
+    rVals = np.arange(0,r+5,.25)
     rCalls = [BS_CALL(S, K, T, rv, sigma) for rv in rVals]
     rPuts = [BS_PUT(S, K, T, rv, sigma) for rv in rVals]
     rCallData = list(map(list, zip(rVals, rCalls)))
     rPutData = list(map(list, zip(rVals, rPuts)))
 
-    TVals = np.arange(T-.5,T+.5,.05)
+    TVals = np.arange(T-.5,T+.5,.025)
     TCalls = [BS_CALL(S, K, t, r, sigma) for t in TVals]
     TPuts = [BS_PUT(S, K, t, r, sigma) for t in TVals]
     TCallData = list(map(list, zip(TVals, TCalls)))
@@ -135,10 +135,10 @@ elif current_view == "visualize":
         ],
         "tooltip": {"trigger": "axis",},
         "xAxis": [
-            {"gridIndex": 0, "min": 43, "max": 67, "name": "Strike Price ($ USD)", "nameLocation": "middle"},
-            {"gridIndex": 1, "min": 10, "max": 45, "name": "Implied Volatility (%)", "nameLocation": "middle"},
-            {"gridIndex": 2, "min": 0, "max": 1.5, "name": "Time to Expiry (Years)", "nameLocation": "middle"},
-            {"gridIndex": 3, "min": 0, "max": 15, "name": "Risk-Free Rate (%)", "nameLocation": "middle"},
+            {"gridIndex": 0, "min": max(0,K-10), "max": K+10, "name": "Strike Price ($ USD)", "nameLocation": "middle"},
+            {"gridIndex": 1, "min": max(0,sigma-15), "max": sigma+15, "name": "Implied Volatility (%)", "nameLocation": "middle"},
+            {"gridIndex": 2, "min": max(0, T-.5), "max": T+.5, "name": "Time to Expiry (Years)", "nameLocation": "middle"},
+            {"gridIndex": 3, "min": max(0, r-5), "max": r+5, "name": "Risk-Free Rate (%)", "nameLocation": "middle"},
         ],
         "yAxis": [
             {"gridIndex": 0, "min": 0, "max": 15, "name": "Option Price (Premium) ($ USD)", "nameLocation": "middle"},
@@ -220,4 +220,3 @@ elif current_view == "visualize":
        ],
     }
     st_echarts(options=option, height="600px")
-
