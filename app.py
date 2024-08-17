@@ -141,10 +141,10 @@ elif current_view == "visualize":
             {"gridIndex": 3, "min": max(0, r-5), "max": r+5, "name": "Risk-Free Rate (%)", "nameLocation": "middle"},
         ],
         "yAxis": [
-            {"gridIndex": 0, "min": 0, "max": 15, "name": "Option Price (Premium) ($ USD)", "nameLocation": "middle"},
-            {"gridIndex": 1, "min": 0, "max": 15},
-            {"gridIndex": 2, "min": 0, "max": 15, "name": "Option Price (Premium) ($ USD)", "nameLocation": "middle"},
-            {"gridIndex": 3, "min": 0, "max": 15},
+            {"gridIndex": 0, "min": max(0, int(min(kCalls[-1], kPuts[0]) - 2)), "max": int(max(kCalls[0], kPuts[-1]) + 2), "name": "Option Price (Premium) ($ USD)", "nameLocation": "middle"},
+            {"gridIndex": 1, "min": max(0, int(min(sigCalls[0], sigPuts[0]) - 1)), "max": int(max(sigCalls[-1], sigPuts[-1]) + 1)},
+            {"gridIndex": 2, "min": max(0, int(min(TCalls[0], TPuts[0]) - 1)), "max": int(max(TCalls[-1], TPuts[-1]) + 1)},
+            {"gridIndex": 3, "min": max(0, int(min(rCalls[0], rPuts[-1]) - 1)), "max": int(max(rCalls[-1], rPuts[0]) + 1)},
         ],
         "series": [
             {
