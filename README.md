@@ -1,5 +1,3 @@
-All Scripting for App in **[Black_Scholes.ipynb](https://github.com/mnmcfadd/Black_Scholes_Application/blob/main/Black_Scholes.ipynb)**
-
-Independent App Script available in **[App.py](https://github.com/mnmcfadd/Black_Scholes_Application/blob/main/app.py)**
+App Script Available in **[App.py](https://github.com/mnmcfadd/Black_Scholes_Application/blob/main/app.py)**
 
 **To Use App:** **[Click Here](https://black-scholes-viz.streamlit.app/)**
