@@ -60,9 +60,9 @@ if current_view == "calculator":
         st.write(f'For S={st.session_state.S}, K={st.session_state.K}, T={st.session_state.T}, sigma={st.session_state.sigma}, r={st.session_state.r}:')
         col3, col4 = st.columns(2)
         with col3:
-            st.write(f'Call Option Price ($ USD): **:blue[{call_price:.2f}]**')
+            st.write(f'Call Option Price ($ USD): **:orange[{call_price:.2f}]**')
         with col4:
-            st.write(f'Put Option Price ($ USD): **:blue[{put_price:.2f}]**')
+            st.write(f'Put Option Price ($ USD): **:orange[{put_price:.2f}]**')
     else:
       st.write(f'Enter Values for All Parameters.')
 
@@ -79,14 +79,14 @@ elif current_view == "visualize":
 
     #generating data
     if S is None or K is None or T is None or r is None or sigma is None:
-        st.write('Visualizing Default Values, use Calculator to Input Custom Values. \nS=52.50, K=55.00, T=.5, sigma=27, r=4.5')
+        st.write('Visualizing Default Values, use Calculator to Input Custom Values. \nS=**:orange[52.50]**, K=**:orange[55.00]**, T=**:orange[.5]**, sigma=**:orange[27]**, r=**:orange[4.5]**')
         S = 52.5
         K = 55.0
         T = .5
         r = 4.5
         sigma = 27.0
     else:
-        st.write(f'Visualizing Values: S={S}, K={K}, T={T}, sigma={sigma}, r={r}.')
+        st.write(f'Visualizing Values: S=**:orange[{S}]**, K=**:orange[{K}]**, T=**:orange[{T}]**, sigma=**:orange[{sigma}]**, r=**:orange[{r}]**.')
 
     #generating data for visualizations
     kVals = np.arange(K-10, K+10, .5)
@@ -130,8 +130,8 @@ elif current_view == "visualize":
         "grid": [
             {"left": "7%", "top": "7%", "width": "38%", "height": "38%"},
             {"right": "7%", "top": "7%", "width": "38%", "height": "38%"},
-            {"left": "7%", "bottom": "7%", "width": "38%", "height": "38%"},
-            {"right": "7%", "bottom": "7%", "width": "38%", "height": "38%"},
+            {"left": "7%", "bottom": "5%", "width": "38%", "height": "38%"},
+            {"right": "7%", "bottom": "5%", "width": "38%", "height": "38%"},
         ],
         "tooltip": {"trigger": "axis",},
         "xAxis": [
@@ -152,6 +152,18 @@ elif current_view == "visualize":
                 "type": "scatter",
                 "xAxisIndex": 0,
                 "yAxisIndex": 0,
+                "markLine": {
+                  "data": [
+                    {"xAxis": K}
+                  ],
+                  "lineStyle": {"color": "orange", "type": "solid", "width": 2},
+                  "label": {
+                    "normal": {
+                      "show": "false"
+                    }
+                  },
+                  "symbol" : "none"
+                },
                 "data": data[0],
                 "itemStyle": {"color": "#00ff00"},
             },
@@ -168,6 +180,18 @@ elif current_view == "visualize":
                 "type": "scatter",
                 "xAxisIndex": 1,
                 "yAxisIndex": 1,
+                "markLine": {
+                  "data": [
+                    {"xAxis": sigma}
+                  ],
+                  "lineStyle": {"color": "#orange", "type": "solid", "width": 2},
+                  "label": {
+                    "normal": {
+                      "show": "false"
+                    }
+                  },
+                  "symbol" : "none"
+                },
                 "data": data[2],
                 "itemStyle": {"color": "#00ff00"},
             },
@@ -184,6 +208,18 @@ elif current_view == "visualize":
                 "type": "scatter",
                 "xAxisIndex": 2,
                 "yAxisIndex": 2,
+                "markLine": {
+                  "data": [
+                    {"xAxis": T}
+                  ],
+                  "lineStyle": {"color": "#orange", "type": "solid", "width": 2},
+                  "label": {
+                    "normal": {
+                      "show": "false"
+                    }
+                  },
+                  "symbol" : "none"
+                },
                 "data": data[4],
                 "itemStyle": {"color": "#00ff00"},
             },
@@ -200,6 +236,18 @@ elif current_view == "visualize":
                 "type": "scatter",
                 "xAxisIndex": 3,
                 "yAxisIndex": 3,
+                "markLine": {
+                  "data": [
+                    {"xAxis": r}
+                  ],
+                  "lineStyle": {"color": "#orange", "type": "solid", "width": 2},
+                  "label": {
+                    "normal": {
+                      "show": "false"
+                    }
+                  },
+                  "symbol" : "none"
+                },
                 "data": data[6],
                 "itemStyle": {"color": "#00ff00"},
             },
@@ -213,8 +261,8 @@ elif current_view == "visualize":
             },
         ],
         "title": [
-        {"text": "Variable Strike Price", "left": "15%", "top": "2%"},
-        {"text": "Variable Volatility", "left": "61%", "top": "2%"},
+        {"text": "Variable Strike Price", "left": "15%", "top": "0%"},
+        {"text": "Variable Volatility", "left": "61%", "top": "0%"},
         {"text": "Variable Time to Expiry", "left": "12%", "top": "50%"},
         {"text": "Variable Risk-Free Rate", "left": "59%", "top": "50%"}
        ],
